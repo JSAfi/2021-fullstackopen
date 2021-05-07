@@ -1,6 +1,13 @@
 title Untitled
 
 selain->palvelin: HTTP POST https://studies.cs.helsinki.fi/exampleapp/new_note
+note over palvelin:
+lomakkeeseen syötetty data siirtyi HTTP POST -pyynnössä
+palvelimen koodi käsittelee saamansa datan
+tätä koodia ei kai ole tarkoituskaan nähdä?
+teksti jää palvelimen tallennuspaikkaan,
+ei kuitenkaan tietokantaan
+end note
 palvelin->selain: Vastaus statuskoodilla 302, redirect -pyyntö osoitteeseen /exampleapp/notes
 selain->palvelin: HTTP GET https://studies.cs.helsinki.fi/exampleapp/notes
 palvelin->selain: sivun HTML -koodi
