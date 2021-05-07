@@ -1,5 +1,12 @@
 title Untitled
 
+note over selain:
+kaavio alkaa tilanteesta jossa käyttäjä on jo avannut sivun
+https://studies.cs.helsinki.fi/exampleapp/notes
+
+käyttäjä kirjoittaa viestin ja painaa lomakkeen "save" -painiketta
+end note
+
 selain->palvelin: HTTP POST https://studies.cs.helsinki.fi/exampleapp/new_note
 note over palvelin:
 lomakkeeseen syötetty data siirtyi HTTP POST -pyynnössä
