@@ -1,0 +1,26 @@
+title Untitled
+
+note over selain:
+käyttäjä lataa sivun
+https://studies.cs.helsinki.fi/exampleapp/spa
+end note
+
+selain -> palvelin: HTTP GET https://studies.cs.helsinki.fi/exampleapp/spa
+palvelin -> selain: text/HTML vastaus, status 200
+selain -> palvelin: HTTP GET https://studies.cs.helsinki.fi/exampleapp/main.css
+palvelin -> selain: text/CSS vastaus, status 200
+selain -> palvelin: HTTP GET https://studies.cs.helsinki.fi/exampleapp/spa.js
+palvelin -> selain: application/javascript vastaus, status 200
+
+note over selain:
+js -koodin suoritus, joka generoi 
+seuraavan HTTP GETin
+end note over 
+
+selain -> palvelin: HTTP GET https://studies.cs.helsinki.fi/exampleapp/data.json
+palvelin -> selain: application/json vastausdata, status 200
+
+note over selain:
+selain huolehtii datan renderöimisestä
+js -koodin mukaisesti
+end note

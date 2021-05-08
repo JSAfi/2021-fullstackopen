@@ -1,0 +1,20 @@
+title Untitled
+
+note over selain:
+kaavio alkaa tilanteesta jossa käyttäjä on jo avannut sivun
+https://studies.cs.helsinki.fi/exampleapp/spa
+
+käyttäjä kirjoittaa viestin ja painaa lomakkeen "save" -painiketta
+end note
+
+selain -> palvelin: javascriptin tuottama HTTP POST https://studies.cs.helsinki.fi/exampleapp/new_note_spa
+
+note over palvelin:
+palvelin saa HTTP payloadissa lomakkeen sisällön
+end note
+
+palvelin -> selain: JSON -vastaus: {"message":"note created"}
+
+note over selain:
+javascriptillä toteutettu tapahtumakäsittelijä renderöi sivun
+end note
