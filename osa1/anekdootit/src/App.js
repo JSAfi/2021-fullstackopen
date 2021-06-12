@@ -35,14 +35,12 @@ const App = () => {
     setSelected(getRandomInt(0, anecdotes.length-1))
   }
   const voteButtonHandler = () => {
-    const copy = {...points}
+    const copy = [...points]
     copy[selected] += 1
     setPoints(copy)
 
-    const maxValue = Math.max(...Object.values(copy))
-// Ei toimisi jos avaimessa on / voi olla enemmän kuin yksi merkki ....
-    const idxMax = Object.entries(copy).find(([key, value]) => value === maxValue)[0]
-
+    const maxValue = Math.max(...copy)    
+    const idxMax = copy.indexOf(maxValue)
     setMax(idxMax)
   }
 
