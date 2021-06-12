@@ -8,6 +8,14 @@ const Button = (props) => {
   )
 }
 
+const DisplayVotes = (props) => {
+  return (
+    <div>
+      has {props.array[props.index]} votes
+    </div>
+  )
+}
+
 const App = () => {
   const anecdotes = [
     'If it hurts, do it more often.',
@@ -21,6 +29,7 @@ const App = () => {
 
   const [selected, setSelected] = useState(0)
   const [points, setPoints] = useState(Array.apply(null, new Array(anecdotes.length)).map(Number.prototype.valueOf,0))
+  const [max, setMax] = useState(0)
 
   const nextAnecdoteHandler = () => {
     setSelected(getRandomInt(0, anecdotes.length-1))
@@ -29,6 +38,12 @@ const App = () => {
     const copy = {...points}
     copy[selected] += 1
     setPoints(copy)
+
+    const maxValue = Math.max(...Object.values(copy))
+// Ei toimisi jos avaimessa on / voi olla enemmän kuin yksi merkki ....
+    const idxMax = Object.entries(copy).find(([key, value]) => value === maxValue)[0]
+
+    setMax(idxMax)
   }
 
   function getRandomInt(min, max) {
@@ -39,14 +54,16 @@ const App = () => {
 
   return (
     <div>
-      <p>
+      <h1>Anecdote of the day</h1>
       {anecdotes[selected]}
-      </p>
-      has {points[selected]} votes
+      <DisplayVotes array={points} index={selected} />
       <p>
       <Button handleClick = {voteButtonHandler} text = "vote" />
       <Button handleClick = {nextAnecdoteHandler} text = "next anecdote" />
       </p>
+      <h1>Anecdote with most votes</h1>
+      {anecdotes[max]}
+      <DisplayVotes array={points} index={max} />
     </div>
   )
 }
