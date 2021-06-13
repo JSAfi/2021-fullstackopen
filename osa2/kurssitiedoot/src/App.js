@@ -14,26 +14,29 @@ const Part = (props) => {
   return (
     <>
       <p>
-        {props.part.name} {props.part.exercises}
+        {props.name} {props.exercises}
       </p>
     </>
   )
 }
 
-const Content = (props) => {
+const Content = ({parts}) => {
   return (
     <>
-      <Part part = {props.parts.parts[0]}/>
-      <Part part = {props.parts.parts[1]}/>
-      <Part part = {props.parts.parts[2]}/>
+      {parts.map(note =>
+        <Part name={note.name} exercises={note.exercises} key={note.id}/>
+        )}
     </>
   )
 }
 
-const Course = () => {
+const Course = ({course}) => {
   return (
-    <p></p>
-  )
+    <div>
+      <Header course={course} />
+      <Content parts = {course.parts} />
+    </div>      
+    )
 }
 
 const App = () => {
@@ -59,10 +62,8 @@ const App = () => {
     ]
   }
 
-  return (
-    <div>
-      <Course course={course} />
-    </div>
+  return (      
+    <Course course={course} />
   )
 }
 
