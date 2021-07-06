@@ -38,7 +38,7 @@ const Total = ({parts}) => {
   )
 }
 
-const Course = ({course}) => {
+const OneCourse = ({course}) => {
     return (
      <div>
       <Header course={course} />
@@ -48,12 +48,11 @@ const Course = ({course}) => {
     )
 }
 
-const Courses = ({courses}) => {
-  console.log({courses})
+const Course = ({courses}) => {
   return (
     <>
       {courses.map((crs)=> (
-        <Course course={crs} key={crs.id} />
+        <OneCourse course={crs} key={crs.id} />
       ))}
     </>
   )
@@ -106,7 +105,7 @@ const App = () => {
   ]
 
   return (      
-    <Courses courses={courses} />
+    <Course courses={courses} />
   )
 }
 
