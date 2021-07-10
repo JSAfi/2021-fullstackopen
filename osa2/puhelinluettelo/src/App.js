@@ -2,7 +2,39 @@ import React, { useState } from 'react'
 
 const Person = (props) => {
   return (
-    <p>{props.name} {props.number}</p>
+    <li>{props.name} {props.number}</li>
+  )
+}
+
+const Persons = ({personsToDisplay}) => {
+  return (
+    personsToDisplay.map(person => 
+      <Person name= {person.name} number={person.number} key={person.name}/>
+  ))
+}
+
+const Filter = (props) => {
+  return(
+    <div>
+      filter shown with <input value={props.filter} onChange={props.onChange} />
+    </div>
+  )
+}
+
+const AddNewPerson = (props) => {
+  return (
+      <form onSubmit={props.handler}>
+        <div>
+          name: <input value={props.newName} onChange={props.nameChangeHandler}/>
+        </div>
+        <div> 
+          number: <input value={props.newNumber} onChange={props.numberChangeHandler} />
+        </div>
+        <div>
+          <button type="submit">add</button>
+        </div>
+      </form>
+
   )
 }
 
@@ -10,7 +42,14 @@ const App = (props) => {
   const [ persons, setPersons] = useState(props.persons) 
   const [ newName, setNewName ] = useState('')
   const [ newNumber, setNewNumber ] = useState('')
+  
   const [ filterValue, setNewFilter] = useState('')
+
+  const handleFilterChange = (event) => {
+    console.log(event.target.value)
+    setNewFilter(event.target.value)
+  }
+
 
   const handleNumberChange = (event) => {
     console.log(event.target.value)
@@ -47,10 +86,7 @@ const App = (props) => {
     console.log(event.target.value)
     setNewName(event.target.value)
   }
-  const handleFilterChange = (event) => {
-    console.log(event.target.value)
-    setNewFilter(event.target.value)
-  }
+  
 
   const containsCaseInsensitive = (find) => find.name.toUpperCase().search(filterValue.toUpperCase()) > -1
   const personsToDisplay = persons.filter(containsCaseInsensitive)
@@ -60,25 +96,12 @@ const App = (props) => {
   return (
     <div>
       <h2>Phonebook</h2>
-      filter shown with <input value={filterValue} onChange={handleFilterChange} />
-      <form onSubmit={handleAddEntry}>
-        <div>
-          name: <input value={newName} onChange={handleNameChange}/>
-        </div>
-        <div> 
-          number: <input value={newNumber} onChange={handleNumberChange} />
-        </div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
+      <Filter filter = {filterValue} onChange = {handleFilterChange}/>
+      <AddNewPerson handler = {handleAddEntry} nameChangeHandler = {handleNameChange} numberChangeHandler = {handleNumberChange}
+        newNumber = {newNumber} newName = {newName}/>
       <h2>Numbers</h2>      
-      {personsToDisplay.map(person => 
-        <Person name={person.name} number={person.number} key={person.name} />
-      )}
+        <Persons personsToDisplay={personsToDisplay} />
     </div>
   )
-
 }
-
 export default App
