@@ -10,6 +10,7 @@ const App = (props) => {
   const [ persons, setPersons] = useState(props.persons) 
   const [ newName, setNewName ] = useState('')
   const [ newNumber, setNewNumber ] = useState('')
+  const [ filterValue, setNewFilter] = useState('')
 
   const handleNumberChange = (event) => {
     console.log(event.target.value)
@@ -46,10 +47,20 @@ const App = (props) => {
     console.log(event.target.value)
     setNewName(event.target.value)
   }
+  const handleFilterChange = (event) => {
+    console.log(event.target.value)
+    setNewFilter(event.target.value)
+  }
+
+  const containsCaseInsensitive = (find) => find.name.toUpperCase().search(filterValue.toUpperCase()) > -1
+  const personsToDisplay = persons.filter(containsCaseInsensitive)
+  console.log(persons)
+  console.log(personsToDisplay)
 
   return (
     <div>
       <h2>Phonebook</h2>
+      filter shown with <input value={filterValue} onChange={handleFilterChange} />
       <form onSubmit={handleAddEntry}>
         <div>
           name: <input value={newName} onChange={handleNameChange}/>
@@ -61,8 +72,8 @@ const App = (props) => {
           <button type="submit">add</button>
         </div>
       </form>
-      <h2>Numbers</h2>
-      {persons.map(person => 
+      <h2>Numbers</h2>      
+      {personsToDisplay.map(person => 
         <Person name={person.name} number={person.number} key={person.name} />
       )}
     </div>
