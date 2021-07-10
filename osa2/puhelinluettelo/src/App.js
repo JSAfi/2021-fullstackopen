@@ -16,10 +16,10 @@ const App = (props) => {
     
     var onkoListassa = false
 
-    for(var i = 0; i < persons.length; i++) {
-      if(persons[i].name === newName) {
-        onkoListassa = true
-      }
+    const isInArray = (find) => find.name === newName
+
+    if(persons.findIndex(isInArray) > -1) {
+      onkoListassa = true
     }
 
     console.log("onko listassa? ", onkoListassa)
