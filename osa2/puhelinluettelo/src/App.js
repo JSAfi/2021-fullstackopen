@@ -13,11 +13,26 @@ const App = (props) => {
   const handleAddEntry = (event) =>{
     event.preventDefault()
     console.log('button clicked', event)
-    const nameObject = {
-      name: newName,
+    
+    var onkoListassa = false
+
+    for(var i = 0; i < persons.length; i++) {
+      if(persons[i].name === newName) {
+        onkoListassa = true
+      }
     }
-    setPersons(persons.concat(nameObject))
-    setNewName('')
+
+    console.log("onko listassa? ", onkoListassa)
+
+    if (onkoListassa === true) {
+      alert(`${newName} on jo listassa!`)
+    } else {
+      const nameObject = {
+        name: newName,
+      }
+      setPersons(persons.concat(nameObject))
+      setNewName('')
+    }
   }
   const handleNameChange = (event) => {
     console.log(event.target.value)
