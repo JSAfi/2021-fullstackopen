@@ -1,61 +1,52 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 
-const CountryTitle = ({country}) => {
-  return (
-    <li>
-      {country.name}
-    </li>
-  )
-}
-
-const Country = ({country}) => {
-  return (
-    <div>
-      <h1>
-        {country.name}
-      </h1>
-      <div>
-        capital {country.capital}
-      </div>
-      <div>
-        population {country.population}
-      </div>
-      <div>
-        <h2>
-          languages
-        </h2>          
-          {country.languages.map((item) =>
-            <li key={item.name}>
-              {item.name}
-            </li>
-          )}
-      </div>
-      <div>
-        <img src={country.flag} width="500" height="600"/>
-      </div>
-    </div>
-  )
-}
-
-const Countries = ({countries}) => {
+const Countries = ({countries, filter, handleClick}) => {
   console.log(countries.length)
   if(countries.length > 10) {
     return (
       "Too many matches, specify another filter"
     )
-  } 
-  if(countries.length <= 10 && countries.length > 1) {
-    return( 
-      countries.map((item) =>
-        <CountryTitle country={item} key = {item.name} />
+  }
+  if(countries.length > 1) {
+    return(
+      countries.map((item) => 
+        <div key={item.name}>
+          {item.name}
+          <button onClick= {() => handleClick(item)}>
+              Show
+          </button>
+        </div>
       )
     )
   }
-  return(
-    countries.map((item) =>
-        <Country country={item} key = {item.name} />
-      )
+  return (
+    countries.map((country) => 
+      <div key={country.name}>
+        <h1>
+          {country.name}
+        </h1>
+        <div>
+          capital {country.capital}
+        </div>
+        <div>
+          population {country.population}
+        </div>
+        <div>
+          <h2>
+            languages
+          </h2>          
+            {country.languages.map((item) =>
+              <li key={item.name}>
+                {item.name}
+              </li>
+            )}
+        </div>
+        <div>
+          <img src={country.flag} width="500" alt="lipun kuva"/>
+        </div>
+      </div>
+    )
   )
 }
 
@@ -70,6 +61,12 @@ const FilterBox = ({filter, onChange}) => {
 const App = () =>{
   const [allCountries, setAllCountries] = useState([])
   const [filter, setFilter] = useState('')
+
+  const handleClick = (props) => {
+    console.log(props)
+    setFilter(props.name)
+    console.log(filter)
+  }
 
   const handleFilterChange = (event) => {
     console.log(event.target.value)
@@ -92,7 +89,7 @@ const App = () =>{
   return(
     <div>
       <FilterBox filter = {filter} onChange = {handleFilterChange} />
-      <Countries countries={filteredCountries} />
+      <Countries countries={filteredCountries} filter={filter} handleClick={handleClick}/>
     </div>
   )
 }
