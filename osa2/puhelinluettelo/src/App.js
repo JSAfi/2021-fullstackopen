@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import axios from 'axios'
 
 const Person = (props) => {
   return (
@@ -87,6 +88,16 @@ const App = (props) => {
     setNewName(event.target.value)
   }
   
+  useEffect(() => {
+    console.log('effect')
+    axios
+      .get('http://localhost:3001/persons')
+      .then(response=> {
+        console.log('promise fulfilled')
+        setPersons(response.data)
+      })
+    }, []
+  )
 
   const containsCaseInsensitive = (find) => find.name.toUpperCase().search(filterValue.toUpperCase()) > -1
   const personsToDisplay = persons.filter(containsCaseInsensitive)
