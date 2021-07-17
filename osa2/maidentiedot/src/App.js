@@ -10,6 +10,12 @@ const Country = ({country}) => {
 }
 
 const Countries = ({countries}) => {
+  console.log(countries.length)
+  if(countries.length > 10) {
+    return (
+      "Too many matches, specify another filter"
+    )
+  }
   return (
     countries.map((item) =>
       <Country country = {item} key = {item.name}/>
