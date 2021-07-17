@@ -6,7 +6,7 @@ const Person = (props) => {
     <li>{props.name} {props.number}</li>
   )
 }
-
+	
 const Persons = ({personsToDisplay}) => {
   return (
     personsToDisplay.map(person => 

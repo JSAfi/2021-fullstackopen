@@ -17,10 +17,22 @@ const Countries = ({countries}) => {
   )
 }
 
+const FilterBox = ({filter, onChange}) => {
+  return (
+    <div>
+      find countries: <input value={filter} onChange = {onChange} />
+    </div>
+  )
+}
+
 const App = () =>{
   const [allCountries, setAllCountries] = useState([])
+  const [filter, setFilter] = useState('')
 
-  const filter = 'land'
+  const handleFilterChange = (event) => {
+    console.log(event.target.value)
+    setFilter(event.target.value)
+  }
 
   useEffect(() => {
     console.log('effect')
@@ -35,16 +47,10 @@ const App = () =>{
 
   const filteredCountries = allCountries.filter((item) => item.name.toUpperCase().search(filter.toUpperCase()) > -1)
 
-  console.log(filteredCountries)
-
   return(
     <div>
-      <h1>
-        Hello world!
-      </h1>
-      <p>
-        <Countries countries={filteredCountries} />
-      </p>
+      <FilterBox filter = {filter} onChange = {handleFilterChange} />
+      <Countries countries={filteredCountries} />
     </div>
   )
 }
