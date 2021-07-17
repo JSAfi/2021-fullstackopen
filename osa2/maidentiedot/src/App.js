@@ -1,11 +1,40 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 
-const Country = ({country}) => {
+const CountryTitle = ({country}) => {
   return (
     <li>
       {country.name}
     </li>
+  )
+}
+
+const Country = ({country}) => {
+  return (
+    <div>
+      <h1>
+        {country.name}
+      </h1>
+      <div>
+        capital {country.capital}
+      </div>
+      <div>
+        population {country.population}
+      </div>
+      <div>
+        <h2>
+          languages
+        </h2>          
+          {country.languages.map((item) =>
+            <li key={item.name}>
+              {item.name}
+            </li>
+          )}
+      </div>
+      <div>
+        <img src={country.flag} width="500" height="600"/>
+      </div>
+    </div>
   )
 }
 
@@ -15,11 +44,18 @@ const Countries = ({countries}) => {
     return (
       "Too many matches, specify another filter"
     )
-  }
-  return (
-    countries.map((item) =>
-      <Country country = {item} key = {item.name}/>
+  } 
+  if(countries.length <= 10 && countries.length > 1) {
+    return( 
+      countries.map((item) =>
+        <CountryTitle country={item} key = {item.name} />
+      )
     )
+  }
+  return(
+    countries.map((item) =>
+        <Country country={item} key = {item.name} />
+      )
   )
 }
 
