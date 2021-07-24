@@ -14,7 +14,7 @@ const Persons = ({personsToDisplay, clickHandler}) => {
     personsToDisplay.map(person => 
       <div key={person.name}>
         <Person name= {person.name} number={person.number}/> 
-        <button onClick = {() => clickHandler(person.id)}> delete </button>
+        <button onClick = {() => clickHandler(person.id, person.name)}> delete </button>
       </div>
       
   ))
@@ -107,16 +107,19 @@ const App = (props) => {
     setNewName(event.target.value)
   }
   
-  const handleDeleteButton = (id) => {
+  const handleDeleteButton = (id, name) => {
     console.log("delete button pressed on: ", id)
     console.log(`http://localhost:3001/persons/${id}`)
-    personService
-      .deleteEntry(id)
-      .then(returnedData => {
-          console.log(persons.filter((person) => person.id !== id))
-          const newPersons = persons.filter((person) => person.id !== id)
-          setPersons(newPersons)
-      })
+
+    if(window.confirm(`Delete ${name} ?`)) {
+      personService
+        .deleteEntry(id)
+        .then(returnedData => {
+            console.log(persons.filter((person) => person.id !== id))
+            const newPersons = persons.filter((person) => person.id !== id)
+            setPersons(newPersons)
+        })
+    }
   }
 
   const containsCaseInsensitive = (find) => find.name.toUpperCase().search(filterValue.toUpperCase()) > -1
