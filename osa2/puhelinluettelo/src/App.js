@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 
+import personService from './services/persons'
+
 const Person = (props) => {
   return (
     <li>{props.name} {props.number}</li>
@@ -78,9 +80,13 @@ const App = (props) => {
         name: newName,
         number: newNumber,
       }
-      setPersons(persons.concat(nameObject))
-      setNewName('')
-      setNewNumber('')
+      personService
+        .create(nameObject)
+        .then(returnedPerson => {
+          setPersons(persons.concat(nameObject))
+          setNewName('')
+          setNewNumber('')
+        })
     }
   }
   const handleNameChange = (event) => {
@@ -88,16 +94,13 @@ const App = (props) => {
     setNewName(event.target.value)
   }
   
-  useEffect(() => {
-    console.log('effect')
-    axios
-      .get('http://localhost:3001/persons')
-      .then(response=> {
-        console.log('promise fulfilled')
-        setPersons(response.data)
-      })
-    }, []
-  )
+  const initData = () => {
+    personService.getAll()
+      .then(initialData => {
+        setPersons(initialData)
+      })    
+  }
+  useEffect(initData, [])
 
   const containsCaseInsensitive = (find) => find.name.toUpperCase().search(filterValue.toUpperCase()) > -1
   const personsToDisplay = persons.filter(containsCaseInsensitive)
