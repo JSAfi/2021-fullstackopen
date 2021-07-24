@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import axios from 'axios'
 
 import personService from './services/persons'
 
@@ -74,18 +73,23 @@ const App = (props) => {
     event.preventDefault()
     console.log('button clicked', event)
     
-    var onkoListassa = false
+    const isInArray = (find) => find.name.toUpperCase() === newName.toUpperCase()
+    const foundIndex = persons.findIndex(isInArray)
 
-    const isInArray = (find) => find.name === newName
-
-    if(persons.findIndex(isInArray) > -1) {
-      onkoListassa = true
-    }
-
-    console.log("onko listassa? ", onkoListassa)
-
-    if (onkoListassa === true) {
-      alert(`${newName} on jo listassa!`)
+    if( foundIndex > -1) {
+      const foundEntry = persons[foundIndex]
+      console.log('nimi on jo listassa: ', foundEntry.name)
+      if(window.confirm(`${foundEntry.name} is already added to phonebook, replace the old number with a new one?`)) {
+        const nameObject = {...foundEntry, number: newNumber}
+        console.log("on listassa, uusi: ", nameObject)
+        console.log("on listassa, vanha: ", foundEntry)
+        personService
+          .update(foundEntry.id, nameObject) 
+          .then(returnedPerson => {
+            console.log('update')
+            setPersons(persons.map(person => person.id !== foundEntry.id ? person : returnedPerson))
+        })
+      }
     } else {
       const nameObject = {
         name: newName,
@@ -94,13 +98,13 @@ const App = (props) => {
       personService
         .create(nameObject)
         .then(returnedPerson => {
-          console.log("ennen", persons.length)
+          console.log("ennen", persons.length)          
           setPersons(persons.concat(returnedPerson))
-          setNewName('')
-          setNewNumber('')
           console.log("jälkeen", persons.length)
         })
     }
+    setNewName('')
+    setNewNumber('')
   }
   const handleNameChange = (event) => {
     console.log(event.target.value)
@@ -130,6 +134,7 @@ const App = (props) => {
   return (
     <div>
       <h2>Phonebook</h2>
+
       <Filter filter = {filterValue} onChange = {handleFilterChange}/>
       <AddNewPerson handler = {handleAddEntry} nameChangeHandler = {handleNameChange} numberChangeHandler = {handleNumberChange}
         newNumber = {newNumber} newName = {newName}/>
