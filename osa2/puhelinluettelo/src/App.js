@@ -9,10 +9,14 @@ const Person = (props) => {
   )
 }
 	
-const Persons = ({personsToDisplay}) => {
+const Persons = ({personsToDisplay, clickHandler}) => {
   return (
     personsToDisplay.map(person => 
-      <Person name= {person.name} number={person.number} key={person.name}/>
+      <div key={person.name}>
+        <Person name= {person.name} number={person.number}/> 
+        <button onClick = {() => clickHandler(person.id)}> delete </button>
+      </div>
+      
   ))
 }
 
@@ -48,11 +52,18 @@ const App = (props) => {
   
   const [ filterValue, setNewFilter] = useState('')
 
+  useEffect(() => {
+    personService
+      .getAll()
+      .then(initialData => {
+        setPersons(initialData)
+      })
+  }, [])
+
   const handleFilterChange = (event) => {
     console.log(event.target.value)
     setNewFilter(event.target.value)
   }
-
 
   const handleNumberChange = (event) => {
     console.log(event.target.value)
@@ -83,9 +94,11 @@ const App = (props) => {
       personService
         .create(nameObject)
         .then(returnedPerson => {
-          setPersons(persons.concat(nameObject))
+          console.log("ennen", persons.length)
+          setPersons(persons.concat(returnedPerson))
           setNewName('')
           setNewNumber('')
+          console.log("jälkeen", persons.length)
         })
     }
   }
@@ -94,13 +107,17 @@ const App = (props) => {
     setNewName(event.target.value)
   }
   
-  const initData = () => {
-    personService.getAll()
-      .then(initialData => {
-        setPersons(initialData)
-      })    
+  const handleDeleteButton = (id) => {
+    console.log("delete button pressed on: ", id)
+    console.log(`http://localhost:3001/persons/${id}`)
+    personService
+      .deleteEntry(id)
+      .then(returnedData => {
+          console.log(persons.filter((person) => person.id !== id))
+          const newPersons = persons.filter((person) => person.id !== id)
+          setPersons(newPersons)
+      })
   }
-  useEffect(initData, [])
 
   const containsCaseInsensitive = (find) => find.name.toUpperCase().search(filterValue.toUpperCase()) > -1
   const personsToDisplay = persons.filter(containsCaseInsensitive)
@@ -114,7 +131,7 @@ const App = (props) => {
       <AddNewPerson handler = {handleAddEntry} nameChangeHandler = {handleNameChange} numberChangeHandler = {handleNumberChange}
         newNumber = {newNumber} newName = {newName}/>
       <h2>Numbers</h2>      
-        <Persons personsToDisplay={personsToDisplay} />
+        <Persons personsToDisplay={personsToDisplay} clickHandler = {handleDeleteButton}/>
     </div>
   )
 }
