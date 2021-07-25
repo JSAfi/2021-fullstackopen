@@ -2,6 +2,17 @@ import React, { useEffect, useState } from 'react'
 
 import personService from './services/persons'
 
+const Notification = ({message}) => {
+  if(message===null) {
+    return null
+  }
+  return (
+    <div className="info">
+      {message}
+    </div>
+  )
+}
+
 const Person = (props) => {
   return (
     <li>{props.name} {props.number}</li>
@@ -48,8 +59,8 @@ const App = (props) => {
   const [ persons, setPersons] = useState(props.persons) 
   const [ newName, setNewName ] = useState('')
   const [ newNumber, setNewNumber ] = useState('')
-  
   const [ filterValue, setNewFilter] = useState('')
+  const [ infoMessage, setInfoMessage] = useState(null)
 
   useEffect(() => {
     personService
@@ -98,9 +109,11 @@ const App = (props) => {
       personService
         .create(nameObject)
         .then(returnedPerson => {
-          console.log("ennen", persons.length)          
           setPersons(persons.concat(returnedPerson))
-          console.log("jälkeen", persons.length)
+          setInfoMessage(`'${nameObject.name}' was added!`)
+          setTimeout(()=>{
+            setInfoMessage(null)
+          }, 5000)
         })
     }
     setNewName('')
@@ -134,7 +147,7 @@ const App = (props) => {
   return (
     <div>
       <h2>Phonebook</h2>
-
+      <Notification message={infoMessage} />
       <Filter filter = {filterValue} onChange = {handleFilterChange}/>
       <AddNewPerson handler = {handleAddEntry} nameChangeHandler = {handleNameChange} numberChangeHandler = {handleNumberChange}
         newNumber = {newNumber} newName = {newName}/>
