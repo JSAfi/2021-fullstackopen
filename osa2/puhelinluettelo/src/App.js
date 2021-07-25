@@ -110,6 +110,10 @@ const App = (props) => {
           .then(returnedPerson => {
             console.log('update')
             setPersons(persons.map(person => person.id !== foundEntry.id ? person : returnedPerson))          
+            setInfoMessage(`'${nameObject.name}' successfully updated!`)
+            setTimeout(() => {
+              setInfoMessage(null)
+            }, 5000)
           })
           .catch(error =>{
             setErrorMessage(`'${nameObject.name}' was already deleted from server`)
