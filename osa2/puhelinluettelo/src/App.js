@@ -12,6 +12,16 @@ const Notification = ({message}) => {
     </div>
   )
 }
+const Error = ({message})=> {
+  if(message===null) {
+    return null
+  }
+  return (
+    <div className="error">
+      {message}
+    </div>
+  )  
+}
 
 const Person = (props) => {
   return (
@@ -61,6 +71,7 @@ const App = (props) => {
   const [ newNumber, setNewNumber ] = useState('')
   const [ filterValue, setNewFilter] = useState('')
   const [ infoMessage, setInfoMessage] = useState(null)
+  const [ errorMessage, setErrorMessage] = useState(null)
 
   useEffect(() => {
     personService
@@ -98,8 +109,14 @@ const App = (props) => {
           .update(foundEntry.id, nameObject) 
           .then(returnedPerson => {
             console.log('update')
-            setPersons(persons.map(person => person.id !== foundEntry.id ? person : returnedPerson))
-        })
+            setPersons(persons.map(person => person.id !== foundEntry.id ? person : returnedPerson))          
+          })
+          .catch(error =>{
+            setErrorMessage(`'${nameObject.name}' was already deleted from server`)
+            setTimeout(() => {
+              setErrorMessage(null)
+            }, 5000)
+          })
       }
     } else {
       const nameObject = {
@@ -136,6 +153,12 @@ const App = (props) => {
             const newPersons = persons.filter((person) => person.id !== id)
             setPersons(newPersons)
         })
+        .catch(error =>{
+          setErrorMessage(`'${name}' was already deleted from server`)
+          setTimeout(() => {
+            setErrorMessage(null)
+          }, 5000)
+        })
     }
   }
 
@@ -148,6 +171,7 @@ const App = (props) => {
     <div>
       <h2>Phonebook</h2>
       <Notification message={infoMessage} />
+      <Error message={errorMessage} />
       <Filter filter = {filterValue} onChange = {handleFilterChange}/>
       <AddNewPerson handler = {handleAddEntry} nameChangeHandler = {handleNameChange} numberChangeHandler = {handleNumberChange}
         newNumber = {newNumber} newName = {newName}/>
