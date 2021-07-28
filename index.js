@@ -39,6 +39,10 @@ app.get('/info', (request, response) => {
         </div>`) 
 })
 
+app.get('/api/persons', (request, response) => {
+    response.json(persons)
+})
+
 app.get('/api/persons/:id', (request, response) =>{
     const id = Number(request.params.id)
     const person = persons.find(person => person.id === id)
@@ -48,6 +52,58 @@ app.get('/api/persons/:id', (request, response) =>{
     } else {
         response.status(404).end()
     }
+})
+
+app.delete('/api/persons/:id', (request, response) => {
+    const id = Number(request.params.id)
+    persons = persons.filter(person => person.id !== id)
+  
+    response.status(204).end()
+})
+
+const generateId = () => {
+    return Math.floor(Math.random() * 1000000)
+}
+
+app.post('/api/persons', (request, response) => {
+    const body = request.body
+//    console.log(body)
+    if (!body.name) {
+        return response.status(400).json({
+            error: 'name missing'
+        })
+    }
+    if (!body.number) {
+        return response.status(400).json({
+            error: 'number missing'
+        })
+    }
+
+    const nameMatch = persons.find(person => person.name.toUpperCase() === body.name.toUpperCase())
+    if(nameMatch) {
+        console.log("löytyi", nameMatch)
+        return response.status(400).json({
+            error: 'name already in phonebook'
+        })
+    }
+
+    const numberMatch = persons.find(person => person.number === body.number)
+    if(numberMatch) {
+        console.log("numero löytyi", numberMatch)
+        return response.status(400).json({
+            error: 'number already in phonebook'
+        })
+    }
+
+    const person = {
+        name: body.name,
+        number: body.number,
+        id: generateId(),
+    }
+
+    persons = persons.concat(person)
+
+    response.json(person)
 })
 
 const PORT = 3001
