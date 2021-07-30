@@ -40,6 +40,20 @@ let persons = [
     }
 ]
 
+appp.get('/', (request, response) => {
+    const date = new Date()
+    response.end(`
+        <div>
+        <p>
+            This HY open university full stack 2021 course application is up and running!
+        </p>
+        <p>
+            ${date}
+        </p>
+        </div>
+    `)
+})
+
 app.get('/info', (request, response) => {
     const number = persons.length
     const date = new Date()
