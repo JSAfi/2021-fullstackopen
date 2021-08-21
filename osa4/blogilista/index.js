@@ -3,7 +3,15 @@ const express = require('express')
 const app = express()
 const cors = require('cors')
 const mongoose = require('mongoose')
-require('dotenv').config()
+const config = require('./utils/config')
+
+const morgan = require('morgan')
+
+morgan.token('body', function getBody(req){
+    return JSON.stringify(req.body)
+  })
+  
+app.use(morgan(':method :url :status :res[content-length] :response-time ms :body'))  
 
 const blogSchema = mongoose.Schema({
   title: String,
@@ -14,9 +22,8 @@ const blogSchema = mongoose.Schema({
 
 const Blog = mongoose.model('Blog', blogSchema)
 
-const mongoUrl = process.env.MONGODB_URI
-console.log('connecting to', mongoUrl)
-mongoose.connect(mongoUrl, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false, useCreateIndex: true })
+console.log('connecting to', config.MONGODB_URI)
+mongoose.connect(config.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false, useCreateIndex: true })
     .then(() => {
         console.log('connected to mongoDB')
     })
