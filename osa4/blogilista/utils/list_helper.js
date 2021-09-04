@@ -1,3 +1,5 @@
+const lodash = require('lodash')
+
 const dummy = (blogs) => {
     return 1
 }
@@ -27,7 +29,22 @@ const favoriteBlog = (blogs) => {
 }
 
 const mostBlogs = (blogs) => {
-    return ""
+    
+    const counts = lodash.countBy(blogs, "author")
+
+    const orderedList = lodash.orderBy(lodash.toPairs(counts), 1, 'desc')
+
+    const topBlogger = orderedList[0]
+
+    const result = {
+        "author": topBlogger[0],
+        "blogs": topBlogger[1]
+    }
+
+//    console.log(orderedList)
+//    console.log('so the top blogger is ', topBlogger[0], ' who has ', topBlogger[1], ' blogs')
+
+    return result
 }
 
 module.exports = {

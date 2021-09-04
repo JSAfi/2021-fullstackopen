@@ -20,7 +20,7 @@ describe('total likes', () => {
         {
           _id: '5a422aa71b54a676234d17f0',
           title: 'Honkytonk Badonkadonks',
-          author: 'Mr. Dorkydork Dingledong',
+          author: 'Dorkydork Dingledong',
           url: 'http://www.google.com/finance',
           likes: 55,
           __v: 0
@@ -28,7 +28,7 @@ describe('total likes', () => {
         {
             _id: '5a422aa71b54a676234d17f0',
             title: 'Honkytonk Badonkadonks',
-            author: 'Mr. Dorkydork Dingledong',
+            author: 'Dorkydork Dingledong',
             url: 'http://www.google.com/finance',
             likes: 55,
             __v: 0
@@ -36,7 +36,7 @@ describe('total likes', () => {
           {
             _id: '5a422aa71b54a676234d17f0',
             title: 'Honkytonk Badonkadonks',
-            author: 'Mr. Dorkydork Dingledong',
+            author: 'Dorkydork Dingledong',
             url: 'http://www.google.com/finance',
             likes: 0,
             __v: 0
@@ -62,7 +62,7 @@ describe('favorite blog', () => {
         {
           _id: '5a422aa71b54a676234d17f0',
           title: 'Honkytonk Badonkadonks',
-          author: 'Mr. Dorkydork Dingledong',
+          author: 'Dorkydork Dingledong',
           url: 'http://www.google.com/finance',
           likes: 55,
           __v: 0
@@ -70,7 +70,7 @@ describe('favorite blog', () => {
         {
             _id: '5a422aa71b54a676234d17f0',
             title: 'Honkytonk Badonkadonks',
-            author: 'Mr. Dorkydork Dingledong',
+            author: 'Dorkydork Dingledong',
             url: 'http://www.google.com/finance',
             likes: 155,
             __v: 0
@@ -78,7 +78,7 @@ describe('favorite blog', () => {
           {
             _id: '5a422aa71b54a676234d17f0',
             title: 'Honkytonk Badonkadonks',
-            author: 'Mr. Dorkydork Dingledong',
+            author: 'Dorkydork Dingledong',
             url: 'http://www.google.com/finance',
             likes: 0,
             __v: 0
@@ -86,7 +86,7 @@ describe('favorite blog', () => {
           {
             _id: '5b422bb71b54a676234d17f0',
             title: 'Honkytonk Badonkadonks',
-            author: 'Mr. Dorkydork Dingledong',
+            author: 'Dorkydork Dingledong',
             url: 'http://www.google.com/finance',
             likes: 235,
             __v: 0
@@ -98,7 +98,7 @@ describe('favorite blog', () => {
         const expected = {
             _id: '5b422bb71b54a676234d17f0',
             title: 'Honkytonk Badonkadonks',
-            author: 'Mr. Dorkydork Dingledong',
+            author: 'Dorkydork Dingledong',
             url: 'http://www.google.com/finance',
             likes: 235,
             __v: 0
@@ -119,25 +119,25 @@ describe('author with most blogs', () => {
           __v: 0
         },
         {
-          _id: '5a422aa71b54a676234d17f0',
+          _id: '5a422aa71b54a676234d17f1',
           title: 'Honkytonk Badonkadonks',
-          author: 'Mr. Dorkydork Dingledong',
+          author: 'Dorkydork Dingledong',
           url: 'http://www.google.com/finance',
           likes: 55,
           __v: 0
         },
         {
-            _id: '5a422aa71b54a676234d17f0',
+            _id: '5a422aa71b54a676234d17f2',
             title: 'Honkytonk Badonkadonks',
-            author: 'Mr. Dorkydork Dingledong',
+            author: 'Dorkydork Dingledong',
             url: 'http://www.google.com/finance',
             likes: 155,
             __v: 0
           },
           {
-            _id: '5a422aa71b54a676234d17f0',
+            _id: '5a422aa71b54a676234d17f3',
             title: 'Honkytonk Badonkadonks',
-            author: 'Mr. Dorkydork Dingledong',
+            author: 'Dorkydork Dingledong',
             url: 'http://www.google.com/finance',
             likes: 0,
             __v: 0
@@ -149,13 +149,21 @@ describe('author with most blogs', () => {
             url: 'http://www.google.com/finance',
             likes: 235,
             __v: 0
+          },
+          {
+            _id: '5b422bb71b54a676234d17f0',
+            title: 'Honkytonk Badonkadonks',
+            author: 'RamaLama DingDong',
+            url: 'http://www.google.com/finance',
+            likes: 2,
+            __v: 0
           }
     ]
 
     test('return the author with most blogs', () => {
-        const result = listHelper.favoriteBlog(listWithSomeBlogs)
+        const result = listHelper.mostBlogs(listWithSomeBlogs)
         const expected = {
-            author: 'Mr. Dorkydork Dingledong',
+            author: 'Dorkydork Dingledong',
             blogs: 3
           }
 

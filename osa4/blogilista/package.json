@@ -12,6 +12,7 @@
   "license": "ISC",
   "devDependencies": {
     "jest": "^27.1.0",
+    "lodash": "^4.17.21",
     "nodemon": "^2.0.12"
   },
   "dependencies": {
@@ -22,6 +23,6 @@
     "morgan": "^1.10.0"
   },
   "jest": {
-	"testEnvironment": "node"
+    "testEnvironment": "node"
   }
 }
