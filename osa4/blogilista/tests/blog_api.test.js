@@ -58,6 +58,31 @@ test('test410 adding blogs with http post works', async () => {
     expect(response.body).toHaveLength(initialBlogs.length + 1)
 })
 
+test('test411 likes default to 0', async () => {
+/*
+* Testi menee läpi myös jos likes -kenttä olisi null, koska koodi ehkä toimii
+*/
+    const testBlog = {
+        "title": "Hong Kong King Kong Ding Dong",
+        "author": "Testytesty Alphaman",
+        "url": "www.tilastokeskus.fi"
+    }
+
+    await api 
+        .post('/api/blogs')
+        .send(testBlog)
+        .expect(200)
+        .expect('Content-Type', /application\/json/)
+
+    const response = await api.get('/api/blogs')    
+
+
+    const mostRecentlyAddedBlog = response.body[ response.body.length -1 ]
+    console.log("testiblogi noudettuna on ", mostRecentlyAddedBlog )
+
+    expect(mostRecentlyAddedBlog.likes).toBe(0)
+})
+
 afterAll(() => {
     mongoose.connection.close()
 })

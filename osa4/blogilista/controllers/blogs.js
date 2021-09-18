@@ -40,6 +40,13 @@ blogsRouter.post('/', async (request, response, next) => {
     "likes": body.likes
   })
 
+  if(!blog.likes) {
+    console.log("postissa blogilla tykkäyksiä:: ", blog.likes)
+    blog.likes = 0
+  }
+
+  console.log("nyt blogahdus on: ", blog)
+
   const savedBlog = await blog.save()
   response.json(savedBlog.toJSON())
 })
