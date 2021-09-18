@@ -39,48 +39,74 @@ test('test49 id field is named correctly', async () => {
     expect(response.body[0].id).toBeDefined()
 })
 
-test('test410 adding blogs with http post works', async () => {
-    const testBlog = {
-        "title": "Greatest Calorie Bombs",
-        "author": "Fatty BoomBatty",
-        "url": "www.mantangrilli.fi",
-        "likes": 100
-    }
+describe('test post operation', () => {
+    test('test410 adding blogs with http post works', async () => {
+        const testBlog = {
+            "title": "Greatest Calorie Bombs",
+            "author": "Fatty BoomBatty",
+            "url": "www.mantangrilli.fi",
+            "likes": 100
+        }
 
-    await api 
-        .post('/api/blogs')
-        .send(testBlog)
-        .expect(200)
-        .expect('Content-Type', /application\/json/)
+        await api 
+            .post('/api/blogs')
+            .send(testBlog)
+            .expect(200)
+            .expect('Content-Type', /application\/json/)
 
-    const response = await api.get('/api/blogs')    
+        const response = await api.get('/api/blogs')    
 
-    expect(response.body).toHaveLength(initialBlogs.length + 1)
-})
+        expect(response.body).toHaveLength(initialBlogs.length + 1)
+    })
 
-test('test411 likes default to 0', async () => {
-/*
-* Testi menee läpi myös jos likes -kenttä olisi null, koska koodi ehkä toimii
-*/
-    const testBlog = {
-        "title": "Hong Kong King Kong Ding Dong",
-        "author": "Testytesty Alphaman",
-        "url": "www.tilastokeskus.fi"
-    }
+    test('test411 likes default to 0', async () => {
+    /*
+    * Testi menee läpi myös jos likes -kenttä olisi null, koska koodi ehkä toimii
+    */
+        const testBlog = {
+            "title": "Hong Kong King Kong Ding Dong",
+            "author": "Testytesty Alphaman",
+            "url": "www.tilastokeskus.fi"
+        }
 
-    await api 
-        .post('/api/blogs')
-        .send(testBlog)
-        .expect(200)
-        .expect('Content-Type', /application\/json/)
+        await api 
+            .post('/api/blogs')
+            .send(testBlog)
+            .expect(200)
+            .expect('Content-Type', /application\/json/)
 
-    const response = await api.get('/api/blogs')    
+        const response = await api.get('/api/blogs')    
 
 
-    const mostRecentlyAddedBlog = response.body[ response.body.length -1 ]
-    console.log("testiblogi noudettuna on ", mostRecentlyAddedBlog )
+        const mostRecentlyAddedBlog = response.body[ response.body.length -1 ]
+        console.log("testiblogi noudettuna on ", mostRecentlyAddedBlog )
 
-    expect(mostRecentlyAddedBlog.likes).toBe(0)
+        expect(mostRecentlyAddedBlog.likes).toBe(0)
+    })
+
+    test('test412 blog must have title', async () => {
+        const testBlog = {
+            "author": "Testytesty Alphaman",
+            "url": "www.tilastokeskus.fi",
+            "likes": 3
+        }
+        await api 
+            .post('/api/blogs')
+            .send(testBlog)
+            .expect(400)    
+    })
+
+    test('test412 blog must have url', async () => {
+        const testBlog = {
+            "title": "Hong Kong King Kong Ding Dong",
+            "author": "Testytesty Alphaman",
+            "likes": 3
+        }
+        await api 
+            .post('/api/blogs')
+            .send(testBlog)
+            .expect(400)    
+    })
 })
 
 afterAll(() => {

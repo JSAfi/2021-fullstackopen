@@ -37,18 +37,17 @@ blogsRouter.post('/', async (request, response, next) => {
     "title": body.title,
     "author": body.author,
     "url": body.url,
-    "likes": body.likes
+    "likes": body.likes | 0
   })
-
-  if(!blog.likes) {
-    console.log("postissa blogilla tykkäyksiä:: ", blog.likes)
-    blog.likes = 0
-  }
 
   console.log("nyt blogahdus on: ", blog)
 
-  const savedBlog = await blog.save()
-  response.json(savedBlog.toJSON())
+  if(!blog.url | !blog.title) {
+    response.status(400).send()
+  } else {
+    const savedBlog = await blog.save()
+    response.json(savedBlog.toJSON())
+  }
 })
 
 module.exports = blogsRouter
