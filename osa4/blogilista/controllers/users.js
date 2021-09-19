@@ -15,9 +15,6 @@ usersRouter.post('/', async (request, response) => {
         response.status(400).end()
     } else if(body.username.length<3) {
         response.status(400).end()
-    } else if(existingUsers.find(search => search.username === body.username)) {
-        console.log('Username on jo kannassa!')
-        response.status(400).end()
     } else {
         const user = new User({
             username: body.username,
