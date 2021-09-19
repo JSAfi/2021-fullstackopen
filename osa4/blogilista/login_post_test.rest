@@ -1,0 +1,11 @@
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IldpbGx5IFdvbmthIiwiaWQiOiI2MTQ3MzNhMTFmYjVlYjM3YTQ0ZGE0ZTEiLCJpYXQiOjE2MzIwNjQyMjR9.K6EKYBi_dv6s9oc6uGvfJW2xAMivSOd7tLHr22JjaVU
+
+{
+    "title": "OHC turbo",
+    "author": "Loverman 3000",
+    "url": "www.rugby.fi",
+    "likes": 10,
+    "userid": "61461a7a14966d50e44805f8"
+}
