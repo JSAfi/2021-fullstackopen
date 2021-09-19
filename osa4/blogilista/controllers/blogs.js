@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken')
 
 const Blog = require('../models/blog')
 const User = require('../models/user')
-
+/*
 const getTokenFrom = request => {
   const authorization = request.get('authorization')
   console.log(authorization)
@@ -12,7 +12,7 @@ const getTokenFrom = request => {
   }
   return null
 }
-
+*/
 
 blogsRouter.get('/', async (request, response) => {
   const blogs = await Blog.find({}).populate('user', {username: 1, name: 1})
@@ -32,18 +32,13 @@ blogsRouter.get('/:id', async (request, response) => {
 
 blogsRouter.post('/', async (request, response, next) => {
   const body = request.body
-  const token = getTokenFrom(request)
-  const decodedToken = jwt.verify(token, process.env.SECRET)
-  if(!token || !decodedToken.id) {
-    console.log("---")
-    console.log("DECODDTOKEN ID", decodedToken.id)
-    console.log("TOKEN", token)
+
+  const decodedToken = jwt.verify(request.token, process.env.SECRET)
+
+  if(!request.token || !decodedToken.id) {
     return response.status(401).json({error: 'token missing or invalid'})
   }
 
-/*  
-  const user = await User.findById(body.userId)
-*/
   const user = await User.findById(decodedToken.id)
 
   const blog = new Blog({
@@ -53,8 +48,6 @@ blogsRouter.post('/', async (request, response, next) => {
     "likes": body.likes === undefined ? 0 : body.likes,
     "user": user._id
   })
-
-/*  console.log("nyt blogahdus on: ", blog) */
 
   if(!blog.url | !blog.title) {
     response.status(400).send()
