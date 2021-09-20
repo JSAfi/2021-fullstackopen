@@ -60,15 +60,13 @@ blogsRouter.post('/', async (request, response, next) => {
 })
 
 blogsRouter.delete('/:id', async (request, response) => {
-// hae pyynnöstä token ja sen käyttäjä kuten postissa
-// vertaa poistettavan blogin tekijän id
-  const decodedToken = jwt.verify(request.token, process.env.SECRET)
-  console.log('DecodedToken', decodedToken)   // tässä pyytäjän id
-  
+  console.log("REQUEST USER: ", request.user)
+  const user = request.user
+
   const blog = await Blog.findById(request.params.id)
   console.log('poistettava blogi', blog)
 
-  if(blog.user.toString() === decodedToken.id.toString()) {
+  if(blog.user.toString() === user) {
     await Blog.findByIdAndRemove(request.params.id)
     response.status(204).end()
   } else

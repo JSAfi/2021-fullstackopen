@@ -31,6 +31,7 @@ app.use(morgan(':method :url :status :res[content-length] :response-time ms :bod
 //app.use(middleware.requestLogger)
 
 app.use(middleware.tokenExtractor)
+app.use(middleware.userExtractor)
 
 app.use('/api/blogs', blogsRouter)
 app.use('/api/users', usersRouter)

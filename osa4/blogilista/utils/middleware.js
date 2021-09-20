@@ -35,9 +35,25 @@ const tokenExtractor = (request, response, next) => {
   next()
 }
 
+const userExtractor = (request, response, next) => {
+
+  const token = request.token
+
+  console.log("TOKEN", token)
+
+  const decodedToken = jwt.verify(request.token, process.env.SECRET)
+
+  console.log("DECODED TOKEN", decodedToken)
+
+  request.user = decodedToken.id.toString()
+
+  next()
+}
+
 module.exports = {
     requestLogger,
     unknownEndpoint,
     errorHandler,
-    tokenExtractor
+    tokenExtractor,
+    userExtractor
 }
