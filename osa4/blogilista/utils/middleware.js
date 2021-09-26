@@ -36,16 +36,19 @@ const tokenExtractor = (request, response, next) => {
 }
 
 const userExtractor = (request, response, next) => {
+  if(request.token) {
+    const token = request.token
 
-  const token = request.token
+    console.log("TOKEN", token)
 
-  console.log("TOKEN", token)
+    const decodedToken = jwt.verify(request.token, process.env.SECRET)
 
-  const decodedToken = jwt.verify(request.token, process.env.SECRET)
+    console.log("DECODED TOKEN", decodedToken)
 
-  console.log("DECODED TOKEN", decodedToken)
-
-  request.user = decodedToken.id.toString()
+    request.user = decodedToken.id.toString()
+  } else {
+    request.user = ""
+  }
 
   next()
 }

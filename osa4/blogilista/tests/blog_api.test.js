@@ -136,6 +136,18 @@ describe('test post operation', () => {
             .send(testBlog)
             .expect(400)    
     })
+
+    test('423 must have token', async () => {
+        const testBlog = {
+            "title": "Hong Kong King Kong Ding Dong",
+            "author": "Testytesty Alphaman",
+            "likes": 3
+        }
+        await api 
+            .post('/api/blogs')
+            .send(testBlog)
+            .expect(401)            
+    })
 })
 
 afterAll(() => {
