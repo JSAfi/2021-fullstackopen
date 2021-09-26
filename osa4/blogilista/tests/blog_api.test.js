@@ -1,8 +1,10 @@
 const mongoose = require('mongoose')
+const bcrypt = require('bcrypt')
 const supertest = require('supertest')
 const app = require('../app')
 const api = supertest(app)
 
+const User = require('../models/user')
 const Blog = require('../models/blog')
 
 const initialBlogs = [
@@ -20,12 +22,35 @@ const initialBlogs = [
     }
 ]
 
+let globalTestToken
+
 beforeEach(async () => {
     await Blog.deleteMany({})
     let blogObject = new Blog(initialBlogs[0])
     await blogObject.save()
     blogObject = new Blog(initialBlogs[1])
     await blogObject.save()
+
+    await User.deleteMany({})    
+
+    const genericTestPassword  = "geneerinensalasana"
+
+    const pwHash = await bcrypt.hash(genericTestPassword, 10)
+    const testUser = new User({
+        username: "Iso Pete",
+        passwordHash: pwHash
+    })
+
+    await testUser.save()
+
+    const response = await 
+        api.post('/api/login')
+        .send({
+            username: "Iso Pete",
+            password: "geneerinensalasana"
+        })
+    
+    globalTestToken = response.body.token
 })
 
 test('test48 first test', async () => {
@@ -50,6 +75,7 @@ describe('test post operation', () => {
 
         await api 
             .post('/api/blogs')
+            .set({Authorization: `bearer ${globalTestToken}`})
             .send(testBlog)
             .expect(200)
             .expect('Content-Type', /application\/json/)
@@ -71,6 +97,7 @@ describe('test post operation', () => {
 
         await api 
             .post('/api/blogs')
+            .set({Authorization: `bearer ${globalTestToken}`})
             .send(testBlog)
             .expect(200)
             .expect('Content-Type', /application\/json/)
@@ -92,6 +119,7 @@ describe('test post operation', () => {
         }
         await api 
             .post('/api/blogs')
+            .set({Authorization: `bearer ${globalTestToken}`})
             .send(testBlog)
             .expect(400)    
     })
@@ -104,6 +132,7 @@ describe('test post operation', () => {
         }
         await api 
             .post('/api/blogs')
+            .set({Authorization: `bearer ${globalTestToken}`})
             .send(testBlog)
             .expect(400)    
     })

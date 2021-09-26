@@ -7,9 +7,6 @@ usersRouter.post('/', async (request, response) => {
 
     const saltRounds = 10
     const passwordHash = await bcrypt.hash(body.password, saltRounds)
-
-    const existingUsers = await User.find({})
-    console.log(existingUsers.find(search => search.username === body.username))
  
     if(body.password.length<3) {
         response.status(400).end()
