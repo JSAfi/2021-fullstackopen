@@ -16,9 +16,15 @@ const App = () => {
       const user  = await loginService.login({
         username, password
       })
+
+      window.localStorage.setItem(
+        'loggedBlogAppUser', JSON.stringify(user)
+      )
+      blogService.setToken(user.token)
       setUser(user)
       setUsername('')
       setPassword('')
+      console.log('KIRJAUTUNUT USER ', user)
     } catch(exception) {
 /*      setErrorMessage('wrong credentials')
       setTimeout(() => {
@@ -66,6 +72,14 @@ const App = () => {
     blogService.getAll().then(blogs =>
       setBlogs( blogs )
     )  
+  }, [])
+  useEffect(() => {
+    const loggedUserJSON = window.localStorage.getItem('loggedBlogAppUser')
+    if(loggedUserJSON) {
+      const user = JSON.parse(loggedUserJSON)
+      setUser(user)
+      blogService.setToken(user.token)
+    }
   }, [])
 
   return (
