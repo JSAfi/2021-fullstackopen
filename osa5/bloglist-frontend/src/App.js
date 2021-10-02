@@ -106,9 +106,7 @@ const App = () => {
       <h2>blogs</h2>
       <ul>
         {blogs.map(blog =>
-//          <Togglable key={blog.id} buttonLabel="view" cancelButtonLabel="hide">
             <Blog key={blog.id} blog={blog} />
-//          </Togglable>
         )}
       </ul>
     </div>

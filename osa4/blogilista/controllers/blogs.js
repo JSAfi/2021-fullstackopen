@@ -88,7 +88,7 @@ blogsRouter.put('/:id', async (request, response) => {
 
 // korvataan kohderesurssi _kokonaan_ uudella
   const updateBlog = await Blog.findByIdAndUpdate(request.params.id, request.body)
-  response.json(updatedBlog.toJSON())
+  response.json(updateBlog.toJSON())
 })
 
 module.exports = blogsRouter
