@@ -1,16 +1,14 @@
 import React, { useState, useEffect } from 'react'
 import Notification from './components/Notification'
 import Blog from './components/Blog'
+import Togglable from './components/Togglable'
 import LoginForm from './components/LoginForm'
+import BlogForm from './components/BlogForm'
 import loginService from './services/login'
 import blogService from './services/blogs'
 
 const App = () => {
-  const [loginVisible, setLoginVisible] = useState(false)
   const [blogs, setBlogs] = useState([])
-  const [newBlog, setNewBlog] = useState('')
-  const [author, setAuthor] = useState('')
-  const [url, setUrl] = useState('')
   const [user, setUser] = useState(null)
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
@@ -40,64 +38,44 @@ const App = () => {
       console.log('wrong credentials try-catch block!')
     } 
   }
-
-  const loginForm = () => {
-    const hideWhenVisible = { display: loginVisible ? 'none' : '' }
-    const showWhenVisible = { display: loginVisible ? '' : 'none' }
-
-    return (
-      <div>
-        <div style={hideWhenVisible}>
-          <button onClick={() => setLoginVisible(true)}>log in</button>
-        </div>
-        <div style={showWhenVisible}>
-          <LoginForm
-            username = {username}
-            password = {password}
-            handleUsernameChange = {({target}) => setUsername(target.value)}
-            handlePasswordChange = {({target}) => setPassword(target.value)}
-            handleSubmit = {handleLogin}
-          />
-          <button onClick={() => setLoginVisible(false)}>cancel</button>
-        </div>
-      </div>
-    )
-  }
-
-  const addBlog = async (event) => {
+  const addBlog = (blogObject) => {
     try {
-      const blogObject = {
-        title: newBlog,
-        author: author,
-        url: url
-      }
-      const response = blogService.create(blogObject)
-      console.log(response)
-
-      setNewBlog('')
-      setAuthor('')
-      setUrl('')
+      blogService
+                .create(blogObject)
+                .then(returnedBlog => {
+                  setBlogs(blogs.concat(returnedBlog))
+                })
       setMessage('Blogi lisätty!')
       setTimeout(() => {
         setMessage(null)
       }, 10000) 
-    } catch (exception) {
-      console.log('poikkeus blogin lisäämisessä!')
+    } catch(exception) {
+      console.log("Poikkeus blogin lisäämisessä!")
     }
-  } 
-
-  const handleAuthorChange = event => {
-    console.log(event.target.value)
-    setAuthor(event.target.value)
   }
 
-  const handleBlogChange = event => {
-    console.log(event.target.value)
-    setNewBlog(event.target.value)
+  const loginForm = () => {
+    return (
+      <Togglable buttonLabel="log in">
+        <LoginForm
+          username={username}
+          password = {password}
+          handleUsernameChange = {({target}) => setUsername(target.value)}
+          handlePasswordChange = {({target}) => setPassword(target.value)}
+          handleSubmit = {handleLogin}
+        />
+      </Togglable>
+    )
   }
-  const handleUrlChange = event => {
-    console.log(event.target.value)
-    setUrl(event.target.value)
+
+  const blogForm = () => {
+    return (
+      <Togglable buttonLabel="create a new blog">
+        <BlogForm         
+          createBlog={addBlog}
+        />
+      </Togglable>
+    )
   }
 
   useEffect(() => {
@@ -121,42 +99,20 @@ const App = () => {
       { user === null ? 
         loginForm() :
         <div>
-            <p>{user.name} logged in</p>
-            <form onSubmit={addBlog}>
-        <div>
-        <input
-          value={newBlog}
-          onChange={handleBlogChange}
-        />
-        </div>
-        <div>
-        <input
-          value={author}
-          onChange={handleAuthorChange}
-        />
-        </div>
-        <div>
-        <input
-          value = {url}
-          onChange={handleUrlChange} />
-        </div>
-        <div>
-          <button type="submit">create</button>
-        </div>
-    </form> 
-        <h2>blogs</h2>
-        <ul>
-          {blogs.map(blog =>
-            <li key={blog.id}>
-              <Blog key={blog.id} blog={blog} />
-            </li>
-          )}
-        </ul>
+          <p>{user.name} logged in</p>
+          {blogForm()}
         </div>
       }
+      <h2>blogs</h2>
+      <ul>
+        {blogs.map(blog =>
+          <li key={blog.id}>
+            <Blog key={blog.id} blog={blog} />
+          </li>
+        )}
+      </ul>
     </div>
-)
+  )
 }
-
 
 export default App
