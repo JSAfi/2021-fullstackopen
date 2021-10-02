@@ -56,7 +56,7 @@ const App = () => {
 
   const loginForm = () => {
     return (
-      <Togglable buttonLabel="log in">
+      <Togglable buttonLabel="log in" cancelButtonLabel="cancel">
         <LoginForm
           username={username}
           password = {password}
@@ -70,7 +70,7 @@ const App = () => {
 
   const blogForm = () => {
     return (
-      <Togglable buttonLabel="create a new blog">
+      <Togglable buttonLabel="create a new blog" cancelButtonLabel="cancel">
         <BlogForm         
           createBlog={addBlog}
         />
@@ -106,9 +106,9 @@ const App = () => {
       <h2>blogs</h2>
       <ul>
         {blogs.map(blog =>
-          <li key={blog.id}>
+//          <Togglable key={blog.id} buttonLabel="view" cancelButtonLabel="hide">
             <Blog key={blog.id} blog={blog} />
-          </li>
+//          </Togglable>
         )}
       </ul>
     </div>
