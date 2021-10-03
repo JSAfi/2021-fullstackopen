@@ -94,6 +94,7 @@ const App = () => {
 
   const updateLikes = (id, blogObject) => {
     console.log("UPDATING ID : ", id)
+    blogObject.id = id
     blogService
       .update(id, blogObject)
       .then(returnedBlog => {

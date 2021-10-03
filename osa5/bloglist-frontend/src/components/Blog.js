@@ -21,7 +21,7 @@ const Blog = ({blog, updateLikes}) => {
     const id = blog.id
 
     const newBlog = {
-      user: blog.user.id,
+      user: blog.user.id === undefined ? blog.user : blog.user.id,
       likes: blog.likes+1,
       author: blog.author,
       title: blog.title,
