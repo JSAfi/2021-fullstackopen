@@ -1,8 +1,8 @@
 import React, {useState} from 'react'
 
-const Blog = ({blog, updateLikes, delBlog}) => {
+const Blog = ({blog, updateLikes, delBlog, user}) => {
   const [open, setOpen] = useState(false)
-
+  
   const toggleOpen = () => {
       setOpen(!open)
   }
@@ -53,6 +53,10 @@ const Blog = ({blog, updateLikes, delBlog}) => {
     )
   }
   
+  const showDeleteButton = user.name === null
+    ? ''
+    : user.name === blog.user.name
+
   return(
     <div style={blogStyle}>
       <div>{blog.title}</div>
@@ -64,7 +68,10 @@ const Blog = ({blog, updateLikes, delBlog}) => {
       </div>
       <div>{blog.url}</div>
       <div><button onClick={toggleOpen}>hide</button></div>
-      <div><button onClick={removeBlog}>remove</button></div>
+      {showDeleteButton && (
+        <div><button onClick={removeBlog}>remove</button></div>
+        )
+      }    
     </div>
   )
 }    

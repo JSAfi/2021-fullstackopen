@@ -124,6 +124,8 @@ const App = () => {
 
   const sortedBlogs = blogs.sort((a,b) => b.likes-a.likes)
 
+//  console.log("USER : ", user)
+
   return (
     <div>
       <Notification message={message} />
@@ -137,7 +139,7 @@ const App = () => {
       <h2>blogs</h2>
       
         {sortedBlogs.map(blog =>
-            <Blog key={blog.id} blog={blog} updateLikes={updateLikes} delBlog={deleteBlog}/>
+            <Blog key={blog.id} blog={blog} updateLikes={updateLikes} delBlog={deleteBlog} user={user}/>
         )}
       
     </div>

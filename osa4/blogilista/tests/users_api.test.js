@@ -45,7 +45,7 @@ describe('test Users post', () => {
     test('post wont add if name already in db', async () => {
         const newUser = {
             "username": "Shaggy Boombastic",
-            "user": "joulupukki mayne",
+            "name": "joulupukki mayne",
             "password": "hail satan"
         }
         await api
