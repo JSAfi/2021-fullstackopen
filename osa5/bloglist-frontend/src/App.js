@@ -103,6 +103,25 @@ const App = () => {
       })
   }
 
+  const deleteBlog = (id) => {
+    blogService 
+      .del(id)
+      .then(returnedBlog => {
+        console.log(returnedBlog)
+        setBlogs(blogs.filter(listaBlogi => listaBlogi.id !== id))
+        setMessage('Blog removed!')
+        setTimeout(() => {
+          setMessage(null)
+        }, 10000)
+      })
+      .catch(error => {
+        setMessage('Blog not removed!')
+        setTimeout(() => {
+          setMessage(null)
+        }, 10000)
+      })
+  }
+
   const sortedBlogs = blogs.sort((a,b) => b.likes-a.likes)
 
   return (
@@ -118,7 +137,7 @@ const App = () => {
       <h2>blogs</h2>
       
         {sortedBlogs.map(blog =>
-            <Blog key={blog.id} blog={blog} updateLikes={updateLikes}/>
+            <Blog key={blog.id} blog={blog} updateLikes={updateLikes} delBlog={deleteBlog}/>
         )}
       
     </div>

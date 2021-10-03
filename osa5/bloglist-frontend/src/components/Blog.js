@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 
-const Blog = ({blog, updateLikes}) => {
+const Blog = ({blog, updateLikes, delBlog}) => {
   const [open, setOpen] = useState(false)
 
   const toggleOpen = () => {
@@ -34,6 +34,16 @@ const Blog = ({blog, updateLikes}) => {
     updateLikes(id, newBlog)
   }
 
+  const removeBlog = (event) => {
+    event.preventDefault()
+
+    window.confirm(`Are you sure you want to delete ${blog.title} ?`)
+
+    console.log("DELETING ", blog.id)
+
+    delBlog(blog.id)
+  }
+
   if(!open) {
     return(
       <div style={blogStyle}>
@@ -53,7 +63,8 @@ const Blog = ({blog, updateLikes}) => {
         <button onClick={addLike}>like</button>
       </div>
       <div>{blog.url}</div>
-      <button onClick={toggleOpen}>hide</button>
+      <div><button onClick={toggleOpen}>hide</button></div>
+      <div><button onClick={removeBlog}>remove</button></div>
     </div>
   )
 }    
