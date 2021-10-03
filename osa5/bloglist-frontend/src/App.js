@@ -14,6 +14,20 @@ const App = () => {
   const [password, setPassword] = useState('')
   const [message, setMessage] = useState(null)
 
+  useEffect(() => {
+    blogService.getAll().then(blogs =>
+      setBlogs( blogs )
+    )  
+  }, [])
+
+  useEffect(() => {
+    const loggedUserJSON = window.localStorage.getItem('loggedBlogAppUser')
+    if(loggedUserJSON) {
+      const user = JSON.parse(loggedUserJSON)
+      setUser(user)
+      blogService.setToken(user.token)
+    }
+  }, [])
   const handleLogin = async (event) => {
     event.preventDefault()
   
@@ -78,20 +92,15 @@ const App = () => {
     )
   }
 
-  useEffect(() => {
-    blogService.getAll().then(blogs =>
-      setBlogs( blogs )
-    )  
-  }, [])
-
-  useEffect(() => {
-    const loggedUserJSON = window.localStorage.getItem('loggedBlogAppUser')
-    if(loggedUserJSON) {
-      const user = JSON.parse(loggedUserJSON)
-      setUser(user)
-      blogService.setToken(user.token)
-    }
-  }, [])
+  const updateLikes = (id, blogObject) => {
+    console.log("UPDATING ID : ", id)
+    blogService
+      .update(id, blogObject)
+      .then(returnedBlog => {
+        console.log(returnedBlog)
+        setBlogs(blogs.map(listaBlogi => listaBlogi.id !== returnedBlog.id ? listaBlogi : blogObject))
+      })
+  }
 
   return (
     <div>
@@ -104,11 +113,11 @@ const App = () => {
         </div>
       }
       <h2>blogs</h2>
-      <ul>
+      
         {blogs.map(blog =>
-            <Blog key={blog.id} blog={blog} />
+            <Blog key={blog.id} blog={blog} updateLikes={updateLikes}/>
         )}
-      </ul>
+      
     </div>
   )
 }

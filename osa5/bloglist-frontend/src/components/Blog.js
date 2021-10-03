@@ -1,7 +1,6 @@
 import React, {useState} from 'react'
-import blogService from '../services/blogs'
 
-const Blog = ({blog}) => {
+const Blog = ({blog, updateLikes}) => {
   const [open, setOpen] = useState(false)
 
   const toggleOpen = () => {
@@ -16,25 +15,23 @@ const Blog = ({blog}) => {
     marginBottom: 5
   }
 
-  const addLike = (props) => {
-    /*
-    * Tästä laukaistaan blogServiceen tehtävä PUT -kutsu blogin tiedoilla, joissa likejä on kasvatettu yhdellä
-    */
-    console.log("LIKING : ", blog)
-
-    const newBlog = {
-      title: blog.title,
-      author: blog.author,
-      url: blog.url,
-      likes: blog.likes+1,
-      user: blog.user.id
-    }
-
-    console.log("WILL UPDATE : ", newBlog)
+  const addLike = (event) => {
+    event.preventDefault()
 
     const id = blog.id
 
-    blogService.update(id, newBlog)
+    const newBlog = {
+      user: blog.user.id,
+      likes: blog.likes+1,
+      author: blog.author,
+      title: blog.title,
+      url: blog.url
+    }
+
+    console.log("OLD BLOG : ", blog)
+    console.log("NEW BLOG : ", newBlog)
+
+    updateLikes(id, newBlog)
   }
 
   if(!open) {
