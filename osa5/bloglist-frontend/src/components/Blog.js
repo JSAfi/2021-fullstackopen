@@ -1,13 +1,14 @@
-import React, {useState} from 'react'
+/* eslint-disable linebreak-style */
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 
-const Blog = ({blog, updateLikes, delBlog, user}) => {
+const Blog = ({ blog, updateLikes, delBlog, user }) => {
   const [open, setOpen] = useState(false)
-  
+
   const toggleOpen = () => {
-      setOpen(!open)
+    setOpen(!open)
   }
-  
+
   const blogStyle = {
     paddingTop: 10,
     paddingLeft: 2,
@@ -29,8 +30,8 @@ const Blog = ({blog, updateLikes, delBlog, user}) => {
       url: blog.url
     }
 
-    console.log("OLD BLOG : ", blog)
-    console.log("NEW BLOG : ", newBlog)
+    console.log('OLD BLOG : ', blog)
+    console.log('NEW BLOG : ', newBlog)
 
     updateLikes(id, newBlog)
   }
@@ -40,7 +41,7 @@ const Blog = ({blog, updateLikes, delBlog, user}) => {
 
     window.confirm(`Are you sure you want to delete ${blog.title} ?`)
 
-    console.log("DELETING ", blog.id)
+    console.log('DELETING ', blog.id)
 
     delBlog(blog.id)
   }
@@ -53,7 +54,7 @@ const Blog = ({blog, updateLikes, delBlog, user}) => {
       </div>
     )
   }
-  
+
   const showDeleteButton = user.name === null
     ? ''
     : user.name === blog.user.name
@@ -63,7 +64,7 @@ const Blog = ({blog, updateLikes, delBlog, user}) => {
       <div>{blog.title}</div>
       <div>{blog.author}</div>
       <div>
-        likes: 
+        likes:
         {blog.likes}
         <button onClick={addLike}>like</button>
       </div>
@@ -71,11 +72,11 @@ const Blog = ({blog, updateLikes, delBlog, user}) => {
       <div><button onClick={toggleOpen}>hide</button></div>
       {showDeleteButton && (
         <div><button onClick={removeBlog}>remove</button></div>
-        )
-      }    
+      )
+      }
     </div>
   )
-}    
+}
 
 Blog.propTypes = {
   blog: PropTypes.object.isRequired,
