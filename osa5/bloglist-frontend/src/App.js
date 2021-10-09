@@ -1,3 +1,4 @@
+/* eslint-disable linebreak-style */
 import React, { useState, useEffect } from 'react'
 import Notification from './components/Notification'
 import Blog from './components/Blog'
@@ -17,7 +18,7 @@ const App = () => {
   useEffect(() => {
     blogService.getAll().then(blogs =>
       setBlogs( blogs )
-    )  
+    )
   }, [])
 
   useEffect(() => {
@@ -30,7 +31,7 @@ const App = () => {
   }, [])
   const handleLogin = async (event) => {
     event.preventDefault()
-  
+
     try{
       const user  = await loginService.login({
         username, password
@@ -48,23 +49,23 @@ const App = () => {
       setMessage('wrong credentials')
       setTimeout(() => {
         setMessage(null)
-      }, 5000) 
+      }, 5000)
       console.log('wrong credentials try-catch block!')
-    } 
+    }
   }
   const addBlog = (blogObject) => {
     try {
       blogService
-                .create(blogObject)
-                .then(returnedBlog => {
-                  setBlogs(blogs.concat(returnedBlog))
-                })
+        .create(blogObject)
+        .then(returnedBlog => {
+          setBlogs(blogs.concat(returnedBlog))
+        })
       setMessage('Blogi lisätty!')
       setTimeout(() => {
         setMessage(null)
-      }, 10000) 
+      }, 10000)
     } catch(exception) {
-      console.log("Poikkeus blogin lisäämisessä!")
+      console.log('Poikkeus blogin lisäämisessä!')
     }
   }
 
@@ -74,8 +75,8 @@ const App = () => {
         <LoginForm
           username={username}
           password = {password}
-          handleUsernameChange = {({target}) => setUsername(target.value)}
-          handlePasswordChange = {({target}) => setPassword(target.value)}
+          handleUsernameChange = {({ target }) => setUsername(target.value)}
+          handlePasswordChange = {({ target }) => setPassword(target.value)}
           handleSubmit = {handleLogin}
         />
       </Togglable>
@@ -85,7 +86,7 @@ const App = () => {
   const blogForm = () => {
     return (
       <Togglable buttonLabel="create a new blog" cancelButtonLabel="cancel">
-        <BlogForm         
+        <BlogForm
           createBlog={addBlog}
         />
       </Togglable>
@@ -93,7 +94,7 @@ const App = () => {
   }
 
   const updateLikes = (id, blogObject) => {
-    console.log("UPDATING ID : ", id)
+    console.log('UPDATING ID : ', id)
     blogObject.id = id
     blogService
       .update(id, blogObject)
@@ -104,7 +105,7 @@ const App = () => {
   }
 
   const deleteBlog = (id) => {
-    blogService 
+    blogService
       .del(id)
       .then(returnedBlog => {
         console.log(returnedBlog)
@@ -124,12 +125,12 @@ const App = () => {
 
   const sortedBlogs = blogs.sort((a,b) => b.likes-a.likes)
 
-//  console.log("USER : ", user)
+  //  console.log("USER : ", user)
 
   return (
     <div>
       <Notification message={message} />
-      { user === null ? 
+      { user === null ?
         loginForm() :
         <div>
           <p>{user.name} logged in</p>
@@ -137,11 +138,11 @@ const App = () => {
         </div>
       }
       <h2>blogs</h2>
-      
-        {sortedBlogs.map(blog =>
-            <Blog key={blog.id} blog={blog} updateLikes={updateLikes} delBlog={deleteBlog} user={user}/>
-        )}
-      
+
+      {sortedBlogs.map(blog =>
+        <Blog key={blog.id} blog={blog} updateLikes={updateLikes} delBlog={deleteBlog} user={user}/>
+      )}
+
     </div>
   )
 }

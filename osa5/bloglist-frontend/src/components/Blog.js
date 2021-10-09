@@ -54,10 +54,13 @@ const Blog = ({ blog, updateLikes, delBlog, user }) => {
       </div>
     )
   }
-
-  const showDeleteButton = user.name === null
-    ? ''
-    : user.name === blog.user.name
+  
+  let showDeleteButton = false
+  if(user) {
+    if(user.name===blog.user.name) {
+      showDeleteButton=true
+    }
+  }
 
   return(
     <div style={blogStyle} className='blog'>
@@ -82,7 +85,6 @@ Blog.propTypes = {
   blog: PropTypes.object.isRequired,
   updateLikes: PropTypes.func.isRequired,
   delBlog: PropTypes.func.isRequired,
-  user: PropTypes.object.isRequired
 }
 
 export default Blog
