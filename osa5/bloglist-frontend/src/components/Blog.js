@@ -54,9 +54,9 @@ const Blog = ({ blog, updateLikes, delBlog, user }) => {
       </div>
     )
   }
-  
+
   let showDeleteButton = false
-  if(user) {
+  if(user && blog.user) {
     if(user.name===blog.user.name) {
       showDeleteButton=true
     }
