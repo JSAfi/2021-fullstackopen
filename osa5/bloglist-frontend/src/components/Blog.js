@@ -48,8 +48,8 @@ const Blog = ({ blog, updateLikes, delBlog, user }) => {
 
   if(!open) {
     return(
-      <div style={blogStyle}>
-        {blog.title}
+      <div style={blogStyle} className='blog'>
+        {blog.title} {blog.author}
         <button onClick={toggleOpen}>view</button>
       </div>
     )
@@ -60,7 +60,7 @@ const Blog = ({ blog, updateLikes, delBlog, user }) => {
     : user.name === blog.user.name
 
   return(
-    <div style={blogStyle}>
+    <div style={blogStyle} className='blog'>
       <div>{blog.title}</div>
       <div>{blog.author}</div>
       <div>
