@@ -95,11 +95,10 @@ const App = () => {
 
   const updateLikes = (id, blogObject) => {
     console.log('UPDATING ID : ', id)
-    blogObject.id = id
     blogService
       .update(id, blogObject)
       .then(returnedBlog => {
-        console.log(returnedBlog)
+        console.log('RETURNED : ', returnedBlog)
         setBlogs(blogs.map(listaBlogi => listaBlogi.id !== returnedBlog.id ? listaBlogi : blogObject))
       })
   }
@@ -138,7 +137,6 @@ const App = () => {
         </div>
       }
       <h2>blogs</h2>
-
       {sortedBlogs.map(blog =>
         <Blog key={blog.id} blog={blog} updateLikes={updateLikes} delBlog={deleteBlog} user={user}/>
       )}

@@ -47,5 +47,17 @@ describe('Blog app', function() {
         cy.get("#submit").click()
         cy.contains('Parhaat lahjaideat')
       })
+
+      it('A blog can be removed', function () {
+        cy.contains('create a new blog').click()
+        cy.get("#title").type('Parhaat lahjaideat')
+        cy.get("#author").type('Pakkasukko')
+        cy.get("#url").type('www.google.fi')
+        cy.get("#submit").click()
+        cy.contains('Parhaat lahjaideat')
+        cy.get("#view").click()
+        cy.get("#removebutton").click()
+        cy.get('.note').contains('Blog removed!')
+      })
     })
   })

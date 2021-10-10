@@ -1,9 +1,8 @@
-POST http://localhost:3003/api/blogs/ 
+POST http://localhost:3003/api/users/ 
 Content-Type: application/json
 
 {
-    "title": "DeleteMe ManyTimes",
-    "author": "321",
-    "url": "www.google.fi",
-    "likes": 999
+    "username": "abel",
+    "name": "aapeli",
+    "password": "abel"
 }

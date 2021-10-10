@@ -53,7 +53,7 @@ blogsRouter.post('/', [middleware.tokenExtractor, middleware.userExtractor], asy
     "author": body.author,
     "url": body.url,
     "likes": body.likes === undefined ? 0 : body.likes,
-    "user": user._id
+    "user": user
   })
 
   if(!blog.url | !blog.title) {

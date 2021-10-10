@@ -18,22 +18,24 @@ const Blog = ({ blog, updateLikes, delBlog, user }) => {
   }
 
   const addLike = (event) => {
-    event.preventDefault()
+    //event.preventDefault()
 
-    const id = blog.id
+    /*const id = blog.id*/
 
     const newBlog = {
+      id: blog.id,
       user: blog.user.id === undefined ? blog.user : blog.user.id,
       likes: blog.likes+1,
       author: blog.author,
       title: blog.title,
       url: blog.url
     }
+    //const newBlog = { ...blog, likes: blog.likes+1 }
 
     console.log('OLD BLOG : ', blog)
     console.log('NEW BLOG : ', newBlog)
 
-    updateLikes(id, newBlog)
+    updateLikes(blog.id, newBlog)
   }
 
   const removeBlog = (event) => {
@@ -50,11 +52,11 @@ const Blog = ({ blog, updateLikes, delBlog, user }) => {
     return(
       <div style={blogStyle} className='blog'>
         {blog.title} {blog.author}
-        <button onClick={toggleOpen}>view</button>
+        <button id='view' onClick={toggleOpen}>view</button>
       </div>
     )
   }
-
+  console.log(blog)
   let showDeleteButton = false
   if(user && blog.user) {
     if(user.name===blog.user.name) {
@@ -72,9 +74,9 @@ const Blog = ({ blog, updateLikes, delBlog, user }) => {
         <button onClick={addLike}>like</button>
       </div>
       <div>{blog.url}</div>
-      <div><button onClick={toggleOpen}>hide</button></div>
+      <div><button id='view' onClick={toggleOpen}>hide</button></div>
       {showDeleteButton && (
-        <div><button onClick={removeBlog}>remove</button></div>
+        <div><button id='removebutton' onClick={removeBlog}>remove</button></div>
       )
       }
     </div>
