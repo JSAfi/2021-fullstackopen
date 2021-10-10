@@ -60,4 +60,32 @@ describe('Blog app', function() {
         cy.get('.note').contains('Blog removed!')
       })
     })
+
+    describe('Output is correct', function() {
+      beforeEach(function() {
+        cy.login({username: 'santaklasu', password: 'tuhmeliini'})
+        cy.createBlog({title: 'heikoin', author: 'joulumuori', likes: 0, url: 'on'})
+        cy.createBlog({title: 'parhain', author: 'joulumuori', likes: 30, url: 'on'})
+        cy.createBlog({title: 'toiseksi paras', author: 'joulumuori', likes: 3, url: 'on'})
+
+      })
+      /*
+      * vähän tyhmä manuaalinen ratkaisu
+      * toimii kunhan testiblogeilla ei ole yhtä montaa tykkäystä !
+      */
+      it('Output in right order', function() {
+        /*cy.get('.blog').then(blogs => {
+          console.log(blogs[0].firstChild)
+        })*/
+        cy.get('.blog')
+          .eq(0)
+          .should('contain.text', 'parhain')
+        cy.get('.blog')          
+          .eq(1)
+          .should('contain.text', 'toiseksi paras')
+        cy.get('.blog')
+          .eq(2)
+          .should('contain.text', 'heikoin')
+      })
+    })
   })
