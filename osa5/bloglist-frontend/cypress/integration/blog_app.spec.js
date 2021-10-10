@@ -34,4 +34,18 @@ describe('Blog app', function() {
         cy.get('.note').contains('wrong credentials')
       })
     })
+    describe('When logged in', function() {
+      beforeEach(function() {
+        cy.login({ username: 'santaklasu', password: 'tuhmeliini'})
+      })
+  
+      it('A blog can be created', function() {
+        cy.contains('create a new blog').click()
+        cy.get("#title").type('Parhaat lahjaideat')
+        cy.get("#author").type('Pakkasukko')
+        cy.get("#url").type('www.google.fi')
+        cy.get("#submit").click()
+        cy.contains('Parhaat lahjaideat')
+      })
+    })
   })
