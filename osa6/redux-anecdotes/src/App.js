@@ -1,0 +1,38 @@
+import React from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import Notification from './components/Notification'
+
+const App = () => {
+  const anecdotes = useSelector(state => state)
+  const dispatch = useDispatch()
+
+  const vote = (id) => {
+    console.log('vote', id)
+    return {
+      type: 'VOTE',
+      data: { id }
+    }
+  }
+
+  return (
+    <div>
+      <h2>Anecdotes</h2>
+      {anecdotes.map(anecdote =>
+        <div key={anecdote.id}>
+          <Notification note={anecdote.content} />
+          <div>
+            has {anecdote.votes}
+            <button onClick={() => dispatch(vote(anecdote.id))}>vote</button>
+          </div>
+        </div>
+      )}
+      <h2>create new</h2>
+      <form>
+        <div><input /></div>
+        <button>create</button>
+      </form>
+    </div>
+  )
+}
+
+export default App
