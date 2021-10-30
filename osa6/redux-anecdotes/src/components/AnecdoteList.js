@@ -3,13 +3,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { vote } from '../reducers/anecdoteReducer'
 
 const Anecdote = ({note}) => {
-    const style = {
-      border: 'solid',
-      padding: 10,
-      borderWidth: 1
-    }
     return (
-      <div style={style}>
+      <div>
         {note}
       </div>
     )
