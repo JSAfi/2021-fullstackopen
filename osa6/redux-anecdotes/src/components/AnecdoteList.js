@@ -14,8 +14,19 @@ const Anecdote = ({note}) => {
 const AnecdoteList = () => {
     const dispatch = useDispatch()
     const anecdotes = useSelector(state => state.anecdotes)
+    const filter = useSelector(filter => filter.filter)
 
-    const sortedAnecdotes = anecdotes.sort((a,b) => b.votes - a.votes)
+    console.log("ANEKDOOTTILISTAN FILTTERI: ", filter)
+
+    let filteredAnecdotes 
+
+    if(filter) {
+        const containsCaseInsensitive = (find) => find.content.toUpperCase().search(filter.toUpperCase()) > -1
+        filteredAnecdotes = anecdotes.filter(containsCaseInsensitive)
+    } else {
+        filteredAnecdotes = anecdotes
+    }
+    const sortedAnecdotes = filteredAnecdotes.sort((a,b) => b.votes - a.votes)
 
     return (
         <div>
