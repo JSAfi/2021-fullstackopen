@@ -16,6 +16,13 @@ export const vote = (id) => {
   }
 }
 
+export const initializeAnecdotes = (anecdotes) => {
+  return {
+    type: 'INIT_ANECDOTES',
+    data: anecdotes
+  }
+}
+
 export const createAnecdote = (content) => {
   return {
     type: 'NEW_ANECDOTE',
