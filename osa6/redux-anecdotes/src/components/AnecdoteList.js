@@ -16,8 +16,6 @@ const AnecdoteList = () => {
     const anecdotes = useSelector(state => state.anecdotes)
     const filter = useSelector(filter => filter.filter)
 
-    console.log("ANEKDOOTTILISTAN FILTTERI: ", filter)
-
     let filteredAnecdotes 
 
     if(filter) {
@@ -27,7 +25,7 @@ const AnecdoteList = () => {
         filteredAnecdotes = anecdotes
     }
     const sortedAnecdotes = filteredAnecdotes.sort((a,b) => b.votes - a.votes)
-
+    console.log('ANECDOTE: ', sortedAnecdotes)
     return (
         <div>
             {sortedAnecdotes.map(anecdote =>

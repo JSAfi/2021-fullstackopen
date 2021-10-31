@@ -24,7 +24,11 @@ export const initializeAnecdotes = (anecdotes) => {
 }
 
 export const createAnecdote = (content) => {
-  return {
+    return {
+      type: 'NEW_ANECDOTE',
+      content,
+    }
+  /*  return {
     type: 'NEW_ANECDOTE',
       data: {
         content,
@@ -32,6 +36,7 @@ export const createAnecdote = (content) => {
         votes: 0
       }
     }
+*/
 }
 
 const reducer = (state = [], action) => {
@@ -51,8 +56,8 @@ const reducer = (state = [], action) => {
       
       return state.map(anecdote => anecdote.id !== action.data.id ? anecdote : changedAnecdote)
     case 'NEW_ANECDOTE':
-      console.log("NEW_ANECDOTE reducer", action.data)
-      return [...state, action.data]
+      console.log("NEW_ANECDOTE reducer", action.content)
+      return [...state, action.content]
     default:
       console.log('default')
       return state
