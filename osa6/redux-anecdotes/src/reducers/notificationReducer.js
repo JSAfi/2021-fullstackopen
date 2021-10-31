@@ -1,5 +1,3 @@
-const notificationAtStart = 'Initial notification to begin with!'
-
 export const setNotification = (notificationText) => {
     return {
         type: 'SETNOTE',
