@@ -29,10 +29,13 @@ export const initializeAnecdotes = (anecdotes) => {
 }
 
 export const createAnecdote = (content) => {
-    return {
+  return async dispatch => {
+    const newAnecdote = await anecdoteService.createNew(content)
+    dispatch({
       type: 'NEW_ANECDOTE',
-      content,
-    }
+      data: newAnecdote,
+    })
+  }  
 }
 
 const reducer = (state = [], action) => {
@@ -52,8 +55,8 @@ const reducer = (state = [], action) => {
       
       return state.map(anecdote => anecdote.id !== action.data.id ? anecdote : changedAnecdote)
     case 'NEW_ANECDOTE':
-      console.log("NEW_ANECDOTE reducer", action.content)
-      return [...state, action.content]
+      console.log("NEW_ANECDOTE reducer", action)
+      return [...state, action.data]
     default:
       console.log('default')
       return state
