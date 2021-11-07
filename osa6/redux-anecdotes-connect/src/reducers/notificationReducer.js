@@ -1,10 +1,13 @@
 export const setNotification = (notificationText, time) => {
     return async dispatch => {
+        const timeoutID = setTimeout(() => dispatch(clearNotification()), time*1000)
         dispatch({
             type: 'SETNOTE',
-            data: { notificationText }   
+            data: { 
+                notificationText,
+                timeoutID
+             }   
         })
-        setTimeout(() => dispatch(clearNotification()), time*1000)
     }
 }
 
@@ -15,15 +18,19 @@ export const clearNotification = () => {
     }
 }
 
-const notificationReducer = (state = null, action) => {
-    console.log(action)
+const initialState = {notificationText: "", timeoutID: -1}
+
+const notificationReducer = (state = initialState, action) => {
+    console.log("notificationReducer action ", action)
+    console.log('notificationReducer state ', state)
     switch(action.type) {
         case 'SETNOTE':
+            console.log('clearing timeout ', state.timeoutID)
+            clearTimeout(state.timeoutID)
             console.log('action type case')
-            return action.data.notificationText
+            return ({ notificationText: action.data.notificationText, timeoutID: action.data.timeoutID })
         case 'CLEARNOTE':
-            console.log('clearing note')
-            return null
+            return initialState
         default: 
             return state
     }
