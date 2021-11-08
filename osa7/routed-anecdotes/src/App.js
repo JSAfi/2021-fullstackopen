@@ -1,4 +1,8 @@
 import React, { useState } from 'react'
+import {
+  BrowserRouter as Router,
+  Switch, Route, Link
+} from "react-router-dom"
 
 const Menu = () => {
   const padding = {
@@ -6,9 +10,9 @@ const Menu = () => {
   }
   return (
     <div>
-      <a href='#' style={padding}>anecdotes</a>
-      <a href='#' style={padding}>create new</a>
-      <a href='#' style={padding}>about</a>
+      <Link to="/anecdotes"><a href='#' style={padding}>anecdotes</a></Link>
+      <Link to="/create"><a href='#' style={padding}>create new</a></Link>
+      <Link to="/about"><a href='#' style={padding}>about</a></Link>
     </div>
   )
 }
@@ -61,24 +65,24 @@ const CreateNew = (props) => {
   }
 
   return (
-    <div>
-      <h2>create a new anecdote</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          content
-          <input name='content' value={content} onChange={(e) => setContent(e.target.value)} />
-        </div>
-        <div>
-          author
-          <input name='author' value={author} onChange={(e) => setAuthor(e.target.value)} />
-        </div>
-        <div>
-          url for more info
-          <input name='info' value={info} onChange={(e)=> setInfo(e.target.value)} />
-        </div>
-        <button>create</button>
-      </form>
-    </div>
+      <div>
+        <h2>create a new anecdote</h2>
+        <form onSubmit={handleSubmit}>
+          <div>
+            content
+            <input name='content' value={content} onChange={(e) => setContent(e.target.value)} />
+          </div>
+          <div>
+            author
+            <input name='author' value={author} onChange={(e) => setAuthor(e.target.value)} />
+          </div>
+          <div>
+            url for more info
+            <input name='info' value={info} onChange={(e)=> setInfo(e.target.value)} />
+          </div>
+          <button>create</button>
+        </form>
+      </div>
   )
 
 }
@@ -123,14 +127,24 @@ const App = () => {
   }
 
   return (
-    <div>
-      <h1>Software anecdotes</h1>
-      <Menu />
-      <AnecdoteList anecdotes={anecdotes} />
-      <About />
-      <CreateNew addNew={addNew} />
-      <Footer />
-    </div>
+    <Router>
+      <div>
+        <h1>Software anecdotes</h1>
+        <Menu />
+        <Switch>
+          <Route path = "/anecdotes">
+            <AnecdoteList anecdotes={anecdotes} />
+          </Route>
+          <Route path="/about">
+            <About />
+          </Route>
+          <Route path="/create">
+            <CreateNew addNew={addNew} />
+          </Route>          
+        </Switch>
+        <Footer />
+      </div>
+    </Router>
   )
 }
 
