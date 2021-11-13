@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import {
-  BrowserRouter as Router,
   Switch, Route, Link,
   useParams,
-  useHistory
+  useHistory,
+  useRouteMatch
 } from "react-router-dom"
 
 const Menu = () => {
@@ -17,20 +17,13 @@ const Menu = () => {
       <Link to="/about" style={padding}>about</Link>
     </div>
   )
-  /*
-  return (
-    <div>
-      <Link to="/anecdotes"><a href='#' style={padding}>anecdotes</a></Link>
-      <Link to="/create"><a href='#' style={padding}>create new</a></Link>
-      <Link to="/about"><a href='#' style={padding}>about</a></Link>
-    </div>
-  )*/
 }
 
-const Anecdote = ({anecdotes}) => {
-  const id = useParams().id
+const Anecdote = ({anecdote}) => {
+/*  const id = useParams().id
   const anecdote = anecdotes.find(a => a.id === id)
-
+*/
+  console.log("GOT ANECDOTE", anecdote)
   return (
     <div>
       <h1>        
@@ -40,8 +33,9 @@ const Anecdote = ({anecdotes}) => {
   )
 }
 
-const AnecdoteList = ({ anecdotes }) => (
-  <div>
+const AnecdoteList = ({ anecdotes }) => { 
+  return(
+    <div>
     <h2>Anecdotes</h2>
     <ul>
       {anecdotes.map(anecdote => 
@@ -53,7 +47,9 @@ const AnecdoteList = ({ anecdotes }) => (
       )}
     </ul>
   </div>
-)
+  )
+}
+
 
 const About = () => (
   <div>
@@ -178,15 +174,19 @@ const App = () => {
     setAnecdotes(anecdotes.map(a => a.id === id ? voted : a))
   }
 
-  return (
-    <Router>
+  const match = useRouteMatch('/anecdotes/:id')
+  const anecdote = match 
+    ? anecdotes.find(anecdote => Number(anecdote.id) === Number(match.params.id))
+    : null
+
+  return (    
       <div>
         <Notification notificationText = {notification}/>
         <h1>Software anecdotes</h1>
         <Menu />        
-        <Switch>
+        <Switch>          
           <Route path = "/anecdotes/:id">
-            <Anecdote anecdotes={anecdotes}/>
+            <Anecdote anecdote={anecdote}/>
           </Route>
           <Route path = "/anecdotes">
             <AnecdoteList anecdotes={anecdotes} />
@@ -197,10 +197,12 @@ const App = () => {
           <Route path="/create">
             <CreateNew addNew={addNew} />
           </Route>
-        </Switch>
+          <Route path = "/">
+            <AnecdoteList anecdotes={anecdotes} />
+          </Route>
+        </Switch>        
         <Footer />
       </div>
-    </Router>
   )
 }
 
