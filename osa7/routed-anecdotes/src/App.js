@@ -2,7 +2,8 @@ import React, { useState } from 'react'
 import {
   BrowserRouter as Router,
   Switch, Route, Link,
-  useParams
+  useParams,
+  useHistory
 } from "react-router-dom"
 
 const Menu = () => {
@@ -81,6 +82,7 @@ const CreateNew = (props) => {
   const [author, setAuthor] = useState('')
   const [info, setInfo] = useState('')
 
+  const history = useHistory()
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -90,6 +92,7 @@ const CreateNew = (props) => {
       info,
       votes: 0
     })
+    history.push('/anecdotes')
   }
 
   return (
@@ -115,6 +118,23 @@ const CreateNew = (props) => {
 
 }
 
+const Notification = ( {notificationText} ) => {
+  const style = {
+    border: 'solid',
+    padding: 10,
+    borderWidth: 1
+  }
+  
+  if(notificationText) {
+    return (
+      <div style={style}>
+        {notificationText}
+      </div>
+    )
+  }
+  return null
+}
+
 const App = () => {
   const [anecdotes, setAnecdotes] = useState([
     {
@@ -133,11 +153,15 @@ const App = () => {
     }
   ])
 
-  const [notification, setNotification] = useState('')
+  const [notification, setNotification] = useState()
 
   const addNew = (anecdote) => {
     anecdote.id = (Math.random() * 10000).toFixed(0)
     setAnecdotes(anecdotes.concat(anecdote))
+    setNotification("Anekdootti lisätty!")
+    setTimeout(() => {      
+      setNotification(null)
+    }, 10000)
   }
 
   const anecdoteById = (id) =>
@@ -157,6 +181,7 @@ const App = () => {
   return (
     <Router>
       <div>
+        <Notification notificationText = {notification}/>
         <h1>Software anecdotes</h1>
         <Menu />        
         <Switch>
