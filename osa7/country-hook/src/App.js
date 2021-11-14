@@ -19,10 +19,9 @@ const useCountry = (name) => {
   const [country, setCountry] = useState(null)
 
   const baseUrl = 'https://restcountries.com/v3.1/name'
-  console.log(`${baseUrl}/${name}`)
 
   useEffect(() => {
-    console.log("useEffect", name)
+    console.log(name)
     axios.get(`${baseUrl}/${name}`)
           .then(response => {
             console.log(response.data[0])
@@ -37,7 +36,10 @@ const useCountry = (name) => {
             }
             setCountry(country)
           })
-          .catch(() => setCountry({found: false}))
+          .catch(error => {
+            console.log("ERROR", error)
+            setCountry({found: false})
+          })
 
   }, [name])
 
