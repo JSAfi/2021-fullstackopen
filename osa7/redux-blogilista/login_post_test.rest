@@ -1,0 +1,10 @@
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IklzbyBQZXRlIiwiaWQiOiI2MTQ3NjZiZmE4ZWFiMjQyMjBlNmQwOWEiLCJpYXQiOjE2MzIxNTA1MDl9.3R-glm9nGTc74MzlqGg9As3SpnNeiykcZVpy4h3nXWc
+
+{
+    "title": "HonkyTonk BadonkaDonk",
+    "author": "Tits McGee",
+    "url": "www.rugby.fi",
+    "likes": 10
+}
